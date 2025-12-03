@@ -1,0 +1,315 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    {% block meta %}
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Modern online store for electronics and computer hardware">
+        <meta name="keywords" content="electronics, computer hardware, online store, tech shop">
+    {% endblock %}
+
+    {% block extra_meta %}
+    {% endblock %}
+
+    {% block corecss %}
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{% static 'css/base.css' %}?v=13.0">
+    {% endblock %}
+
+    {% block extra_css %}
+    {% endblock %}
+
+    {% block corejs %}
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/0b9fac02ae.js" crossorigin="anonymous"></script>
+    {% endblock %}
+
+    {% block extra_js %}
+    {% endblock %}
+
+   <title>TechStore {% block extra_title %}{% endblock %}</title>
+</head>
+<body>
+   <!-- Modern Header -->
+   <header class="modern-header">
+      <div class="container">
+         <!-- Top Bar: Logo, Search, Icons -->
+         <div class="row align-items-center py-3">
+            <!-- Logo/Brand -->
+            <div class="col-lg-3 col-6">
+               <a href="{% url 'home' %}" class="brand-link text-decoration-none">
+                  <div class="brand-container">
+                     <i class="fas fa-microchip brand-icon"></i>
+                     <span class="brand-name">TechStore</span>
+                  </div>
+               </a>
+            </div>
+
+            <!-- Center Search Bar (Desktop) -->
+            <div class="col-lg-6 d-none d-lg-block">
+               <form method="GET" action="{% url 'products' %}" class="search-form-modern">
+                  <div class="search-wrapper">
+                     <input class="modern-search-input" type="text" name="query" placeholder="Search for products, categories, brands..." />
+                     <button class="modern-search-btn" type="submit">
+                        <i class="fas fa-search"></i>
+                        <span class="d-none d-xl-inline ml-2">Search</span>
+                     </button>
+                  </div>
+               </form>
+            </div>
+
+            <!-- Right Icons -->
+            <div class="col-lg-3 col-6">
+               <div class="header-icons">
+                  <!-- User Account -->
+                  <div class="dropdown">
+                     <a class="icon-link" href="#" id="userDropdown" role="button" data-toggle="dropdown">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="icon-label d-none d-xl-inline">Account</span>
+                     </a>
+                     <div class="dropdown-menu dropdown-menu-right modern-dropdown" aria-labelledby="userDropdown">
+                        {% if request.user.is_authenticated %}
+                           {% if request.user.is_superuser %}
+                              <a href="{% url 'add_product' %}" class="dropdown-item">
+                                 <i class="fas fa-plus-circle mr-2"></i>Add Product
+                              </a>
+                              <div class="dropdown-divider"></div>
+                           {% endif %}
+                           <a href="{% url 'profile' %}" class="dropdown-item">
+                              <i class="fas fa-user mr-2"></i>My Profile
+                           </a>
+                           <a href="{% url 'account_logout' %}" class="dropdown-item">
+                              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                           </a>
+                        {% else %}
+                           <a href="{% url 'account_signup' %}" class="dropdown-item">
+                              <i class="fas fa-user-plus mr-2"></i>Register
+                           </a>
+                           <a href="{% url 'account_login' %}" class="dropdown-item">
+                              <i class="fas fa-sign-in-alt mr-2"></i>Login
+                           </a>
+                        {% endif %}
+                     </div>
+                  </div>
+
+                  <!-- Shopping Cart -->
+                  <a class="icon-link cart-link" href="{% url 'view_cart' %}">
+                     <div class="cart-icon-wrapper">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge-modern">
+                           {% if total %}${{ total|floatformat:2 }}{% else %}$0.00{% endif %}
+                        </span>
+                     </div>
+                     <span class="icon-label d-none d-xl-inline">Cart</span>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Mobile Search -->
+         <div class="row d-lg-none mb-3">
+            <div class="col-12">
+               <form method="GET" action="{% url 'products' %}" class="search-form-modern">
+                  <div class="search-wrapper">
+                     <input class="modern-search-input" type="text" name="query" placeholder="Search products..." />
+                     <button class="modern-search-btn" type="submit">
+                        <i class="fas fa-search"></i>
+                     </button>
+                  </div>
+               </form>
+            </div>
+         </div>
+
+      </div>
+
+      <!-- Navigation Menu Bar -->
+      <div class="row">
+         <div class="col-12">
+            <nav class="main-nav">
+               <button class="mobile-menu-toggle d-lg-none btn btn-primary" type="button" data-toggle="collapse" data-target="#mainNavMenu">
+                  <i class="fas fa-bars"></i> Menu
+               </button>
+
+               <div class="collapse navbar-collapse show" id="mainNavMenu">
+                  <ul class="nav-menu">
+                     <li class="nav-menu-item">
+                        <a class="nav-menu-link" href="{% url 'products' %}">
+                           All Products
+                        </a>
+                     </li>
+                     <li class="nav-menu-item dropdown">
+                        <a class="nav-menu-link dropdown-toggle" href="#" id="pcPartsDropdown" role="button" data-toggle="dropdown">
+                           PC Parts
+                        </a>
+                        <div class="dropdown-menu modern-dropdown" aria-labelledby="pcPartsDropdown">
+                           <a href="{% url 'products' %}?category=CPU" class="dropdown-item"><i class="fas fa-microchip mr-2"></i>CPUs</a>
+                           <a href="{% url 'products' %}?category=GPU" class="dropdown-item"><i class="fas fa-th-large mr-2"></i>GPUs</a>
+                           <a href="{% url 'products' %}?category=MOTHERBOARD" class="dropdown-item"><i class="fas fa-server mr-2"></i>Motherboards</a>
+                           <a href="{% url 'products' %}?category=MEMORY" class="dropdown-item"><i class="fas fa-memory mr-2"></i>RAM</a>
+                           <a href="{% url 'products' %}?category=STORAGE" class="dropdown-item"><i class="fas fa-hdd mr-2"></i>Storage</a>
+                           <a href="{% url 'products' %}?category=POWERSUPPLY" class="dropdown-item"><i class="fas fa-plug mr-2"></i>Power Supplies</a>
+                           <a href="{% url 'products' %}?category=CASE" class="dropdown-item"><i class="fas fa-box mr-2"></i>Cases</a>
+                           <a href="{% url 'products' %}?category=CPU COOLER" class="dropdown-item"><i class="fas fa-fan mr-2"></i>CPU Coolers</a>
+                        </div>
+                     </li>
+                     <li class="nav-menu-item dropdown">
+                        <a class="nav-menu-link dropdown-toggle" href="#" id="accessoriesDropdown" role="button" data-toggle="dropdown">
+                           Accessories
+                        </a>
+                        <div class="dropdown-menu modern-dropdown" aria-labelledby="accessoriesDropdown">
+                           <a href="{% url 'products' %}?category=MOUSE" class="dropdown-item"><i class="fas fa-mouse mr-2"></i>Mice</a>
+                           <a href="{% url 'products' %}?category=KEYBOARD" class="dropdown-item"><i class="fas fa-keyboard mr-2"></i>Keyboards</a>
+                           <a href="{% url 'products' %}?category=MONITOR" class="dropdown-item"><i class="fas fa-desktop mr-2"></i>Monitors</a>
+                           <a href="{% url 'products' %}?category=HEADSET" class="dropdown-item"><i class="fas fa-headphones mr-2"></i>Headsets</a>
+                           <a href="{% url 'products' %}?category=SPEAKERS" class="dropdown-item"><i class="fas fa-volume-up mr-2"></i>Speakers</a>
+                           <a href="{% url 'products' %}?category=UPS" class="dropdown-item"><i class="fas fa-battery-full mr-2"></i>UPS</a>
+                        </div>
+                     </li>
+                     <li class="nav-menu-item dropdown">
+                        <a class="nav-menu-link dropdown-toggle" href="#" id="specialsDropdown" role="button" data-toggle="dropdown">
+                           Special Offers
+                        </a>
+                        <div class="dropdown-menu modern-dropdown" aria-labelledby="specialsDropdown">
+                           <a href="{% url 'products' %}?category=new_arrivals" class="dropdown-item"><i class="fas fa-star mr-2"></i>New Arrivals</a>
+                           <a href="{% url 'products' %}?category=deals" class="dropdown-item"><i class="fas fa-fire mr-2"></i>Deals</a>
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+      </div>
+   </header>
+
+   <!-- Toast Messages -->
+   {% if messages %}
+   <div class="message-container">
+      {% for message in messages %}
+         {% with message.level as level %}
+            {% if level == 40 %}
+               {% include 'includes/toasts/toast_error.html' %}
+            {% elif level == 30 %}
+               {% include 'includes/toasts/toast_warning.html' %}
+            {% elif level == 25 %}
+               {% include 'includes/toasts/toast_success.html' %}
+            {% else %}
+               {% include 'includes/toasts/toast_info.html' %}
+            {% endif %}
+         {% endwith %}
+      {% endfor %}
+   </div>
+   {% endif %}
+
+   <!-- Page Header -->
+   {% block page_header %}
+   <div class="header-container">
+      <div class="container"></div>
+   </div>
+   {% endblock %}
+
+   <!-- Main Content -->
+   <main>
+      {% block content %}
+      {% endblock %}
+   </main>
+
+   <!-- Modern Footer -->
+   <footer>
+      <div class="container">
+         <div class="row">
+            <!-- Contact Info -->
+            <div class="col-md-4 mb-4">
+               <h5 class="mb-3">Contact Us</h5>
+               <p class="mb-2">
+                  <i class="fas fa-map-marker-alt mr-2"></i>
+                  <a href="https://maps.app.goo.gl/uTVxR7Qe9kMQvLdD6" target="_blank" class="text-white">
+                     123 Baghdad Street
+                  </a>
+               </p>
+               <p class="mb-2">
+                  <i class="fas fa-phone mr-2"></i>
+                  +96412345678900
+               </p>
+               <p class="mb-2">
+                  <i class="fas fa-envelope mr-2"></i>
+                  <a href="mailto:store@example.com" class="text-white">
+                     store@example.com
+                  </a>
+               </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-4 mb-4">
+               <h5 class="mb-3">Quick Links</h5>
+               <ul class="list-unstyled">
+                  <li class="mb-2"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                  <li class="mb-2"><a href="{% url 'products' %}" class="text-white">All Products</a></li>
+                  <li class="mb-2"><a href="{% url 'view_cart' %}" class="text-white">Shopping Cart</a></li>
+                  {% if request.user.is_authenticated %}
+                     <li class="mb-2"><a href="{% url 'profile' %}" class="text-white">My Profile</a></li>
+                  {% endif %}
+               </ul>
+            </div>
+
+            <!-- About -->
+            <div class="col-md-4 mb-4">
+               <h5 class="mb-3">About TechStore</h5>
+               <p class="text-white-50">
+                  Your trusted online destination for quality electronics and computer hardware.
+                  We offer competitive pricing, high-quality products, and excellent customer service.
+               </p>
+               <div class="mt-3">
+                  <a href="https://www.facebook.com/" target="_blank" class="text-white mr-3">
+                     <i class="fab fa-facebook fa-2x"></i>
+                  </a>
+                  <a href="#" target="_blank" class="text-white mr-3">
+                     <i class="fab fa-twitter fa-2x"></i>
+                  </a>
+                  <a href="#" target="_blank" class="text-white">
+                     <i class="fab fa-instagram fa-2x"></i>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+         <hr class="bg-white-50">
+
+         <div class="row">
+            <div class="col-md-12 text-center">
+               <p class="mb-0 text-white-50">
+                  &copy; 2025 TechStore. All rights reserved.
+               </p>
+            </div>
+         </div>
+      </div>
+   </footer>
+
+   {% block postloadjs %}
+   <script>
+      // Initialize toasts
+      $(document).ready(function(){
+         $(".toast").toast("show");
+      });
+
+      // Smooth scroll for anchor links
+      $(document).on('click', 'a[href^="#"]', function (event) {
+         event.preventDefault();
+         $('html, body').animate({
+            scrollTop: $($.attr(this, 'href')).offset().top - 100
+         }, 500);
+      });
+   </script>
+   {% endblock %}
+</body>
+</html>

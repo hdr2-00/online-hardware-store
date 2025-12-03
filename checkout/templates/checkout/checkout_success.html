@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .receipt-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        padding: 0 1rem;
+    }
+
+    .success-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .success-icon {
+        font-size: 4rem;
+        color: #10b981;
+        margin-bottom: 1rem;
+        animation: scaleIn 0.5s ease;
+    }
+
+    @keyframes scaleIn {
+        from { transform: scale(0); }
+        to { transform: scale(1); }
+    }
+
+    .success-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 0.5rem;
+    }
+
+    .success-message {
+        color: #64748b;
+        font-size: 1.1rem;
+    }
+
+    .receipt-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        overflow: hidden;
+        border: 1px solid #e2e8f0;
+    }
+
+    .receipt-header {
+        background: #2563eb;
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .receipt-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .order-number-display {
+        background: rgba(255,255,255,0.2);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    .order-number-display .label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .order-number-display .number {
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .receipt-body {
+        padding: 2rem;
+    }
+
+    .section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #2563eb;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-title i {
+        margin-right: 0.5rem;
+        color: #2563eb;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        font-weight: 500;
+        color: #64748b;
+    }
+
+    .info-value {
+        font-weight: 600;
+        color: #0f172a;
+        text-align: right;
+    }
+
+    .order-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .item-details {
+        flex: 1;
+    }
+
+    .item-name {
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 0.25rem;
+    }
+
+    .item-price-details {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .item-total {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #10b981;
+        min-width: 100px;
+        text-align: right;
+    }
+
+    .total-section {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+    }
+
+    .grand-total {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #10b981;
+    }
+
+    .grand-total-label {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .delivery-address-card {
+        background: #2563eb;
+        color: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .delivery-address-card h4 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.9;
+    }
+
+    .delivery-address-card p {
+        margin: 0.25rem 0;
+        font-size: 1.1rem;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-modern {
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary-modern {
+        background: #2563eb;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary-modern:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgb(37 99 235 / 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-secondary-modern {
+        background: white;
+        color: #0f172a;
+        border: 2px solid #2563eb;
+    }
+
+    .btn-secondary-modern:hover {
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+    }
+
+    .payment-badge {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<div class="container header-container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="receipt-container">
+    <!-- Success Header -->
+    <div class="success-header">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>{% if from_profile %}Order Details{% else %}Order Confirmed!{% endif %}</h2>
+        <p class="success-message">
+            {% if from_profile %}
+                Viewing past order confirmation
+            {% else %}
+                Thank you for your purchase! A confirmation email has been sent to <strong>{{ order.email }}</strong>
+            {% endif %}
+        </p>
+    </div>
+
+    <!-- Receipt Card -->
+    <div class="receipt-card">
+        <!-- Receipt Header -->
+        <div class="receipt-header">
+            <h3><i class="fas fa-receipt"></i> Order Receipt</h3>
+            <div class="order-number-display">
+                <div class="label">Order Number</div>
+                <div class="number">{{ order.order_number }}</div>
+            </div>
+        </div>
+
+        <!-- Receipt Body -->
+        <div class="receipt-body">
+            <!-- Order Info -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    Order Information
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="far fa-calendar"></i> Order Date</span>
+                    <span class="info-value">{{ order.date|date:"F d, Y - g:i A" }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email</span>
+                    <span class="info-value">{{ order.email }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-phone"></i> Phone</span>
+                    <span class="info-value">{{ order.phone_number }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-money-bill-wave"></i> Payment Method</span>
+                    <span class="info-value"><span class="payment-badge">Cash on Delivery</span></span>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-shopping-cart"></i>
+                    Order Items
+                </div>
+                {% for item in order.lineitems.all %}
+                <div class="order-item">
+                    <div class="item-details">
+                        <div class="item-name">
+                            <i class="fas fa-box"></i> {{ item.product.name }}
+                        </div>
+                        <div class="item-price-details">
+                            {{ item.quantity }} × ${{ item.product.price }} each
+                        </div>
+                    </div>
+                    <div class="item-total">
+                        ${{ item.lineitem_total }}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Total Section -->
+                <div class="total-section">
+                    <div class="total-row">
+                        <span class="grand-total-label">Grand Total:</span>
+                        <span class="grand-total">${{ order.order_total }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-shipping-fast"></i>
+                    Delivery Address
+                </div>
+                <div class="delivery-address-card">
+                    <h4><i class="fas fa-user"></i> Recipient</h4>
+                    <p><strong>{{ order.full_name }}</strong></p>
+                    <h4 class="mt-3"><i class="fas fa-map-marker-alt"></i> Address</h4>
+                    <p>{{ order.street_address1 }}</p>
+                    {% if order.street_address2 %}
+                    <p>{{ order.street_address2 }}</p>
+                    {% endif %}
+                    <p>{{ order.city }}{% if order.county %}, {{ order.county }}{% endif %}</p>
+                    {% if order.postcode %}
+                    <p>{{ order.postcode }}</p>
+                    {% endif %}
+                    <p>{{ order.country }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        {% if from_profile %}
+        <a href="{% url 'profile' %}" class="btn-modern btn-primary-modern">
+            <i class="fas fa-arrow-left"></i>
+            Back to Profile
+        </a>
+        {% else %}
+        <a href="{% url 'products' %}" class="btn-modern btn-secondary-modern">
+            <i class="fas fa-shopping-cart"></i>
+            Continue Shopping
+        </a>
+        <a href="{% url 'home' %}" class="btn-modern btn-primary-modern">
+            <i class="fas fa-home"></i>
+            Go to Home
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

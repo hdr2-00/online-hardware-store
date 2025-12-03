@@ -1,0 +1,46 @@
+<div class="collapse navbar-collapse" id="main-nav">
+   <ul class="navbar-nav w-auto mx-auto bg-light">
+      <li class="nav-item d-block d-lg-none">
+         <a class="font-weight-bold nav-link mr-5 text-dark" href="{% url 'home' %}" id="home-link">
+         HOME
+         </a>
+      </li>
+      <li class="nav-item">
+         <a class="font-weight-bold nav-link mr-5 text-dark" href="{% url 'products' %}" id="all-products-link">
+         All Products
+         </a>
+      </li>
+      <li class="nav-item dropdown">
+         <a class="font-weight-bold nav-link mr-5 text-dark" href="#" id="supplies-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> PC PARTS <i class="fas fa-sort-down"></i> </a>
+         <div class="dropdown-menu border-0 bg-dark" aria-labelledby="products-link">
+            <a href="{% url 'products' %}?category=CPU" class="dropdown-item text-light">CPUs</a>
+            <a href="{% url 'products' %}?category=GPU" class="dropdown-item text-light">GPUs</a>
+            <a href="{% url 'products' %}?category=CASE" class="dropdown-item text-light">CASEs</a>
+            <a href="{% url 'products' %}?category=MOTHERBOARD" class="dropdown-item text-light">MOTHERBOARDS</a>
+            <a href="{% url 'products' %}?category=MEMORY" class="dropdown-item text-light">RAM</a>
+            <a href="{% url 'products' %}?category=STORAGE" class="dropdown-item text-light">STORAGE</a>
+            <a href="{% url 'products' %}?category=POWERSUPPLY" class="dropdown-item text-light">PSUs</a>
+            <a href="{% url 'products' %}?category=CPU COOLER" class="dropdown-item text-light">CPU COOLERS</a>
+         </div>
+      </li>
+      <li class="nav-item dropdown">
+         <a class="font-weight-bold nav-link mr-5 text-dark" href="#" id="furniture-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ACCESSORIES <i class="fas fa-sort-down"></i> </a>
+         <div class="dropdown-menu border-0  bg-dark" aria-labelledby="">
+            <a href="{% url 'products' %}?category=MOUSE" class="dropdown-item text-light">MOUSES</a>
+            <a href="{% url 'products' %}?category=KEYBOARD" class="dropdown-item text-light">KEYBOARDS</a>
+            <a href="{% url 'products' %}?category=MONITOR" class="dropdown-item text-light">MONITORS</a>
+            <a href="{% url 'products' %}?category=HEADSET" class="dropdown-item text-light">HEADSETS</a>
+            <a href="{% url 'products' %}?category=SPEAKERS" class="dropdown-item text-light">SPEAKERS</a>
+            <a href="{% url 'products' %}?category=UPS" class="dropdown-item text-light">UPS</a>
+
+         </div>
+      </li>
+      <li class="nav-item dropdown">
+         <a class="font-weight-bold nav-link text-dark" href="#" id="specials-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Special Offers <i class="fas fa-sort-down"></i> </a>
+         <div class="dropdown-menu border-0 bg-dark" aria-labelledby="specials-link">
+            <a href="{% url 'products' %}?category=new_arrivals" class="dropdown-item text-light">New Arrivals</a>
+            <a href="{% url 'products' %}?category=deals" class="dropdown-item text-light">Deals</a>
+         </div>
+      </li>
+   </ul>
+</div>

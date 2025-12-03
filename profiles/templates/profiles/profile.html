@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .profile-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2563eb;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #2563eb;
+    }
+
+    .order-receipt {
+        background: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .order-receipt:hover {
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        border-color: #2563eb;
+    }
+
+    .receipt-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px dashed #e2e8f0;
+    }
+
+    .order-number-badge {
+        background: #2563eb;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-block;
+    }
+
+    .order-date {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .order-date i {
+        margin-right: 0.3rem;
+    }
+
+    .order-items {
+        margin: 1rem 0;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        background: #f8fafc;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+
+    .item-name {
+        font-weight: 500;
+        color: #0f172a;
+        flex: 1;
+    }
+
+    .item-quantity {
+        background: #2563eb;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        margin: 0 1rem;
+    }
+
+    .item-price {
+        font-weight: 600;
+        color: #10b981;
+        min-width: 80px;
+        text-align: right;
+    }
+
+    .receipt-footer {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 2px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .total-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .total-amount {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #10b981;
+    }
+
+    .view-details-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .view-details-btn:hover {
+        background: #1d4ed8;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgb(37 99 235 / 0.3);
+    }
+
+    .no-orders {
+        text-align: center;
+        padding: 3rem;
+        color: #64748b;
+    }
+
+    .no-orders i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #cbd5e1;
+    }
+
+    .form-card {
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+
+    .update-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 6px;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .update-btn:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgb(37 99 235 / 0.3);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<div class="container header-container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="overlay"></div>
+<div class="profile-container">
+    <div class="profile-header">
+        <h2><i class="fas fa-user-circle"></i> My Profile</h2>
+        <p class="text-muted">Manage your orders and delivery information</p>
+    </div>
+
+    <div class="row">
+        <!-- Order History Section -->
+        <div class="col-12 col-lg-7 mb-4">
+            <div class="section-card">
+                <h3 class="section-title">
+                    <i class="fas fa-receipt"></i> Order History
+                </h3>
+
+                {% if orders %}
+                    {% for order in orders %}
+                    <div class="order-receipt">
+                        <div class="receipt-header">
+                            <div>
+                                <span class="order-number-badge">
+                                    <i class="fas fa-hashtag"></i> {{ order.order_number|truncatechars:10 }}
+                                </span>
+                            </div>
+                            <div class="order-date">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ order.date|date:"F d, Y" }}
+                            </div>
+                        </div>
+
+                        <div class="order-items">
+                            {% for item in order.lineitems.all %}
+                            <div class="order-item">
+                                <div class="item-name">
+                                    <i class="fas fa-box"></i> {{ item.product.name }}
+                                </div>
+                                <span class="item-quantity">
+                                    x{{ item.quantity }}
+                                </span>
+                                <div class="item-price">
+                                    ${{ item.lineitem_total }}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="receipt-footer">
+                            <div>
+                                <span class="total-label">Total:</span>
+                                <span class="total-amount">${{ order.order_total }}</span>
+                            </div>
+                            <a href="{% url 'order_history' order.order_number %}" class="view-details-btn">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-orders">
+                        <i class="fas fa-shopping-bag"></i>
+                        <h4>No Orders Yet</h4>
+                        <p>Start shopping to see your orders here!</p>
+                        <a href="{% url 'products' %}" class="btn btn-primary mt-3">
+                            <i class="fas fa-shopping-cart"></i> Start Shopping
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Delivery Information Section -->
+        <div class="col-12 col-lg-5">
+            <div class="section-card">
+                <h3 class="section-title">
+                    <i class="fas fa-truck"></i> Delivery Information
+                </h3>
+
+                <div class="form-card">
+                    <form action="{% url 'profile' %}" method="POST" id="profile-update-form">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="update-btn">
+                            <i class="fas fa-save"></i> Update Information
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
