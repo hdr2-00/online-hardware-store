@@ -149,7 +149,7 @@ To use AWS S3 for media file storage:
 3. Update your `.env` file with AWS credentials
 4. Set `USE_AWS=True` in `.env`
 
-For detailed AWS setup instructions, see [SECURITY_SETUP.md](SECURITY_SETUP.md)
+
 
 ## Usage
 
